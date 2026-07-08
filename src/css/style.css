@@ -1,0 +1,312 @@
+/* CSS CODE */
+@import url('https://fonts.googleapis.com/css2?family=Rubik+Dirt&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Contrail+One&display=swap');
+
+:root {
+  --primary-color: #67822D;
+  --secondary-color: #A26652;
+  --accent-color: #97C268;
+  --bg-color: #E4F0F1;
+  --text-color: #272619;
+  --white: #ffffff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Contrail One', cursive, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+header {
+  width: 100%;
+  background-color: var(--primary-color);
+  padding: 15px 20px;
+}
+
+nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+}
+
+nav a {
+  text-decoration: none;
+  color: var(--white);
+  font-size: 1.2rem;
+  transition: color 0.3s ease;
+}
+
+nav a:hover {
+  color: var(--accent-color);
+}
+
+main {
+  width: 100%;
+  max-width: 1000px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hero-section {
+  width: 100%;
+  background-color: rgba(103, 130, 45, 0.1);
+  padding: 40px 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.hero-section h1 {
+  font-family: 'Rubik Dirt', display;
+  font-size: 3.5rem;
+  margin: 0;
+  color: var(--primary-color);
+}
+
+.placeholder-image-wrapper {
+  width: 250px;
+  height: 180px;
+  background-color: var(--white);
+  border: 3px solid var(--secondary-color);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.hero-section p {
+  font-size: 1.4rem;
+  margin: 0;
+}
+
+.btn-plan {
+  background-color: var(--secondary-color);
+  color: var(--white);
+  border: none;
+  padding: 12px 35px;
+  font-family: 'Contrail One', sans-serif;
+  font-size: 1.2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.3s ease;
+}
+
+.btn-plan:hover {
+  background-color: #8c5341;
+  transform: scale(1.05);
+}
+
+.explore-container {
+  width: 100%;
+  background-color: var(--white);
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+
+.search-wrapper {
+  width: 100%;
+  max-width: 500px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 12px 20px;
+  font-family: 'Contrail One', sans-serif;
+  font-size: 1.1rem;
+  border: 2px solid var(--primary-color);
+  border-radius: 6px;
+  color: var(--text-color);
+}
+
+.trail-detail-card {
+  width: 100%;
+  display: flex;
+  gap: 40px;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.large-trail-image {
+  flex: 1;
+  min-height: 350px;
+  background-color: var(--bg-color);
+  border: 3px solid var(--primary-color);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+}
+
+.trail-info-content {
+  flex: 1;
+  text-align: center;
+}
+
+.trail-info-content h2 {
+  font-family: 'Rubik Dirt', display;
+  font-size: 2.5rem;
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: var(--secondary-color);
+}
+
+.trail-info-content p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  text-align: justify;
+}
+
+footer {
+  width: 100%;
+  background-color: var(--primary-color);
+  color: var(--white);
+  padding: 35px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  margin-top: auto;
+}
+
+.footer-links {
+  display: flex;
+  gap: 25px;
+}
+
+.footer-links a {
+  color: var(--white);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+  color: var(--accent-color);
+}
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(39, 38, 25, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 1000;
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-content {
+  background-color: var(--white);
+  border: 4px solid var(--primary-color);
+  border-radius: 12px;
+  width: 90%;
+  max-width: 450px;
+  padding: 30px;
+  position: relative;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+  transform: translateY(-50px);
+  transition: transform 0.3s ease;
+}
+
+.modal-overlay.active .modal-content {
+  transform: translateY(0);
+}
+
+.close-modal {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 1.8rem;
+  background: none;
+  border: none;
+  color: var(--secondary-color);
+  cursor: pointer;
+}
+
+.modal-content h3 {
+  font-family: 'Rubik Dirt', display;
+  color: var(--primary-color);
+  font-size: 2rem;
+  margin-top: 0;
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px;
+  font-family: 'Contrail One', sans-serif;
+  font-size: 1rem;
+  border: 2px solid #ccc;
+  border-radius: 6px;
+  color: var(--text-color);
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--accent-color);
+}
+
+.btn-submit {
+  width: 100%;
+  background-color: var(--primary-color);
+  color: var(--white);
+  border: none;
+  padding: 12px;
+  font-family: 'Contrail One', sans-serif;
+  font-size: 1.2rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-submit:hover {
+  background-color: var(--accent-color);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .trail-detail-card {
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .large-trail-image {
+    width: 100%;
+    min-height: 250px;
+  }
+}
