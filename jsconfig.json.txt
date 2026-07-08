@@ -1,0 +1,9 @@
+// filepath: jsconfig.json
+{
+  "compilerOptions": {
+    "checkJs": true,
+    "module": "ESNext",
+    "target": "ES2022"
+  },
+  "include": ["src/**/*"]
+}

@@ -6,7 +6,9 @@
   "scripts": {
     "start": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "lint": "eslint src/js",
+    "lint-fix": "eslint src/js --fix"
   },
   "devDependencies": {
     "vite": "^8.1.0"
