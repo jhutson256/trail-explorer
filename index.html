@@ -14,7 +14,12 @@
             <ul>
                 <li><a href="#">Favorite Trails</a></li>
                 <li><a href="#">Completed Trails</a></li>
-                <li><a href="#">Explore Trails</a></li>
+                <li class="nav-dropdown-wrapper">
+                    <a href="#" id="plannedTrailsLink">Planned Trails</a>
+                    <ul class="dropdown-menu" id="plannedDropdown">
+                        <li class="empty-msg">No hikes planned yet!</li>
+                    </ul>
+                </li>
             </ul>
         </nav>
     </header>
@@ -29,13 +34,15 @@
                     <path d="M21 15l-5-5L5 21"/>
                 </svg>
             </div>
-            <p>Plan your next hike!</p>
-            <button class="btn-plan" id="openModalBtn">Plan</button>
+            <p>Discover your next great outdoor adventure across national parks.</p>
         </section>
 
         <section class="explore-container">
             <div class="search-wrapper">
-                <input type="text" class="search-input" placeholder="Find a trail">
+                <form id="searchForm">
+                    <input type="text" id="searchInput" placeholder="Search by park name or keyword..." />
+                    <button type="submit">Search</button>
+                </form>
             </div>
 
             <div class="trail-detail-card">
@@ -61,7 +68,7 @@
             <a href="#">Instagram</a>
             <a href="#">Twitter</a>
         </div>
-        <div>Trail Explorer 2026 &copy;</div>
+        <div>Trail Explorer 2026 &copy; Powered by National Park Service API.</div>
     </footer>
 
     <!-- Plan Your Hike Modal Component -->
