@@ -12,8 +12,18 @@
     <header>
         <nav>
             <ul>
-                <li><a href="#">Favorite Trails</a></li>
-                <li><a href="#">Completed Trails</a></li>
+                <li class="nav-dropdown-wrapper">
+                    <a href="#" id="favoriteTrailsLink">Favorite Trails</a>
+                    <ul class="dropdown-menu" id="favoritesDropdown">
+                        <li class="empty-msg">No favorites added yet!</li>
+                    </ul>
+                </li>
+                <li class="nav-dropdown-wrapper">
+                    <a href="#" id="completedTrailsLink">Completed Trails</a>
+                    <ul class="dropdown-menu" id="completedDropdown">
+                        <li class="empty-msg">No completed hikes yet!</li>
+                    </ul>
+                </li>
                 <li class="nav-dropdown-wrapper">
                     <a href="#" id="plannedTrailsLink">Planned Trails</a>
                     <ul class="dropdown-menu" id="plannedDropdown">
@@ -56,7 +66,10 @@
                 <div class="trail-info-content">
                     <h2>Loading next adventure...</h2> 
                     <p></p>
-                    <button class="btn-plan" id="openModalBtn">Plan This Hike</button>
+                    <div class="trail-actions">
+                        <button class="btn-plan" id="openModalBtn">Plan This Hike</button>
+                        <button class="favorite-star-btn" aria-label="Favorite this trail">★</button>
+                    </div>
                 </div>
             </div>
         </section>
@@ -87,7 +100,7 @@
                     <input type="text" id="hike" placeholder="Hike" required>
                 </div>
                 <div class="form-group">
-                    <input type="text" id="date" placeholder="Date" required>
+                    <input type="date" id="date" placeholder="Date" required>
                 </div>
                 <button type="submit" class="btn-submit">Send</button>
             </form>
