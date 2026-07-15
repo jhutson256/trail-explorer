@@ -11,6 +11,14 @@ function formatParkName(parkCode) {
 }
 
 /**
+ * Check if a trail is in the local favorites list
+ */
+function isTrailFavorited(title) {
+  const favorites = JSON.parse(localStorage.getItem('favoriteTrails')) || [];
+  return favorites.some(fav => fav.title === title);
+}
+
+/**
  * Creates the HTML block for a single trail card.
  */
 function buildTrailCardHTML(trail) {
@@ -26,6 +34,8 @@ function buildTrailCardHTML(trail) {
     ? `<img src="${imageUrl}" alt="${title}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 4px;" />`
     : `<p style="color: var(--primary-color);">🌲 No Image Available</p>`;
 
+  const activeClass = isTrailFavorited(title) ? 'is-active' : '';
+
   return `
     <div class="trail-detail-card">
       <div class="large-trail-image">
@@ -39,7 +49,10 @@ function buildTrailCardHTML(trail) {
           <span style="background: #eef2f3; padding: 4px 8px; border-radius: 4px;">📏 ${distanceInfo}</span>
         </div>
         <p>${description}</p>
-        <button class="btn-plan" id="openModalBtn" data-trail-title="${title.replace(/"/g, '&quot;')}">Plan This Hike</button>
+        <div class="trail-actions">
+          <button class="btn-plan" id="openModalBtn" data-trail-title="${title.replace(/"/g, '&quot;')}">Plan This Hike</button>
+          <button class="favorite-star-btn ${activeClass}" data-trail-title="${title.replace(/"/g, '&quot;')}">★</button>
+        </div>
       </div>
     </div>
   `;
@@ -89,11 +102,25 @@ async function loadRandomTrail() {
 }
 
 /**
- * Searches and returns up to 10 matching results sequentially
+ * Searches and returns up to 10 matching results sequentially.
+ * Also keeps the input search field populated if requested externally.
  */
-async function searchTrails(query) {
+async function searchTrails(query, isPopState = false) {
   const container = document.querySelector('.explore-container');
+  const searchInput = document.getElementById('searchInput');
   if (!container || !query.trim()) return;
+
+  // Make sure search input displays the correct text (great for popstate/back button & shared links)
+  if (searchInput) {
+    searchInput.value = query;
+  }
+
+  // Update URL parameters (Skip if triggered by backward/forward navigation)
+  if (!isPopState) {
+    const newUrl = new URL(window.location);
+    newUrl.searchParams.set('search', query);
+    window.history.pushState({}, '', newUrl);
+  }
 
   try {
     const existingCards = container.querySelectorAll('.trail-detail-card, .search-status-msg');
@@ -135,17 +162,12 @@ async function searchTrails(query) {
 }
 
 /**
- * Modal Controls & Event Delegation
- */
-/**
-/**
  * Loads planned hikes from localStorage and syncs the dropdown UI
  */
 function updatePlannedHikesDropdown() {
   const dropdown = document.getElementById('plannedDropdown');
   if (!dropdown) return;
 
-  // Retrieve existing plans or start clean
   const savedHikes = JSON.parse(localStorage.getItem('plannedHikes')) || [];
 
   if (savedHikes.length === 0) {
@@ -153,13 +175,108 @@ function updatePlannedHikesDropdown() {
     return;
   }
 
-  // Build list rows backwards so newest entries show up at the top
   dropdown.innerHTML = [...savedHikes].reverse().map(item => `
-    <li>
-      <span class="dropdown-trail">⛰️ ${item.hike}</span>
-      <span class="dropdown-meta">👤 ${item.name} | 📅 ${item.date}</span>
+    <li class="planned-item-row">
+      <div class="planned-item-text">
+        <span class="dropdown-trail">⛰️ ${item.hike}</span>
+        <span class="dropdown-meta">👤 ${item.name} | 📅 ${item.date}</span>
+      </div>
+      <input type="checkbox" class="complete-checkbox" data-timestamp="${item.timestamp}" title="Mark as Completed" />
     </li>
   `).join('');
+}
+
+/**
+ * Loads completed hikes from localStorage and syncs the dropdown UI
+ */
+function updateCompletedHikesDropdown() {
+  const dropdown = document.getElementById('completedDropdown');
+  if (!dropdown) return;
+
+  const completedHikes = JSON.parse(localStorage.getItem('completedHikes')) || [];
+
+  if (completedHikes.length === 0) {
+    dropdown.innerHTML = '<li class="empty-msg">No completed hikes yet!</li>';
+    return;
+  }
+
+  dropdown.innerHTML = [...completedHikes].reverse().map(item => `
+    <li>
+      <span class="dropdown-trail">🌲 ${item.hike}</span>
+      <span class="dropdown-meta">👤 ${item.name}</span>
+      <span class="dropdown-completed-badge">✓ Completed</span>
+    </li>
+  `).join('');
+}
+
+/**
+ * Moves a planned hike to completed hikes based on its timestamp ID
+ */
+function completePlannedHike(timestamp) {
+  let planned = JSON.parse(localStorage.getItem('plannedHikes')) || [];
+  let completed = JSON.parse(localStorage.getItem('completedHikes')) || [];
+
+  const itemIndex = planned.findIndex(hike => hike.timestamp === parseInt(timestamp, 10));
+  
+  if (itemIndex > -1) {
+    const hikeToMove = planned.splice(itemIndex, 1)[0];
+    completed.push(hikeToMove);
+
+    localStorage.setItem('plannedHikes', JSON.stringify(planned));
+    localStorage.setItem('completedHikes', JSON.stringify(completed));
+
+    updatePlannedHikesDropdown();
+    updateCompletedHikesDropdown();
+  }
+}
+
+/**
+ * Loads favorite trails from localStorage and syncs the dropdown UI
+ */
+function updateFavoritesDropdown() {
+  const dropdown = document.getElementById('favoritesDropdown');
+  if (!dropdown) return;
+
+  const favorites = JSON.parse(localStorage.getItem('favoriteTrails')) || [];
+
+  if (favorites.length === 0) {
+    dropdown.innerHTML = '<li class="empty-msg">No favorites added yet!</li>';
+    return;
+  }
+
+  dropdown.innerHTML = [...favorites].reverse().map(item => `
+    <li>
+      <span class="dropdown-trail">★ ${item.title}</span>
+      <button class="dropdown-remove-fav" data-trail-title="${item.title.replace(/"/g, '&quot;')}">Remove</button>
+    </li>
+  `).join('');
+}
+
+/**
+ * Handle favoriting a trail or removing it
+ */
+function toggleFavorite(title) {
+  let favorites = JSON.parse(localStorage.getItem('favoriteTrails')) || [];
+  const index = favorites.findIndex(fav => fav.title === title);
+
+  if (index > -1) {
+    favorites.splice(index, 1);
+  } else {
+    favorites.push({ title });
+  }
+
+  localStorage.setItem('favoriteTrails', JSON.stringify(favorites));
+  
+  updateFavoritesDropdown();
+  
+  const starButtons = document.querySelectorAll(`.favorite-star-btn[data-trail-title="${title.replace(/"/g, '\\"')}"]`);
+  starButtons.forEach(btn => {
+    if (index > -1) {
+      btn.classList.remove('is-active');
+    } else {
+      btn.classList.add('is-active');
+    }
+  });
 }
 
 /**
@@ -173,13 +290,37 @@ function initModal() {
 
   if (!modal || !closeBtn) return;
 
-  // Intercept clicks on dynamic trail card buttons
   document.addEventListener('click', (e) => {
     if (e.target.matches('.trail-info-content #openModalBtn')) {
       modal.classList.add('active');
       const selectedTrailTitle = e.target.getAttribute('data-trail-title');
       if (hikeInputField && selectedTrailTitle) {
         hikeInputField.value = selectedTrailTitle;
+      }
+    }
+
+    if (e.target.matches('.favorite-star-btn')) {
+      const title = e.target.getAttribute('data-trail-title');
+      if (title) {
+        toggleFavorite(title);
+      }
+    }
+
+    if (e.target.matches('.dropdown-remove-fav')) {
+      const title = e.target.getAttribute('data-trail-title');
+      if (title) {
+        toggleFavorite(title);
+      }
+    }
+  });
+
+  document.addEventListener('change', (e) => {
+    if (e.target.matches('.complete-checkbox')) {
+      const timestamp = e.target.getAttribute('data-timestamp');
+      if (timestamp) {
+        setTimeout(() => {
+          completePlannedHike(timestamp);
+        }, 300);
       }
     }
   });
@@ -199,12 +340,10 @@ function initModal() {
         timestamp: Date.now()
       };
 
-      // Retrieve existing list, push new element, store it back
       const currentHikes = JSON.parse(localStorage.getItem('plannedHikes')) || [];
       currentHikes.push(newPlan);
       localStorage.setItem('plannedHikes', JSON.stringify(currentHikes));
 
-      // Refresh layout components
       updatePlannedHikesDropdown();
 
       alert(`Awesome, ${newPlan.name}! Your hike to ${newPlan.hike} is locked in.`);
@@ -213,8 +352,9 @@ function initModal() {
     });
   }
 
-  // Run immediately on file execution to parse past saved history state 
   updatePlannedHikesDropdown();
+  updateCompletedHikesDropdown();
+  updateFavoritesDropdown();
 }
 
 function initSearch() {
@@ -228,8 +368,28 @@ function initSearch() {
   });
 }
 
+/**
+ * NEW: Checks the URL search query parameters when page loads 
+ * or when back/forward navigation is clicked.
+ */
+function handleRouting() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const searchQuery = urlParams.get('search');
+
+  if (searchQuery) {
+    searchTrails(searchQuery, true); // Executes the search with popstate set to true
+  } else {
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) searchInput.value = ""; // Empty out search input if landing back at root
+    loadRandomTrail();
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   initModal();
   initSearch();
-  loadRandomTrail();
+  handleRouting(); // Replaced direct loadRandomTrail() to handle query routing on startup
+
+  // Listen to browser history navigation (back and forward button interactions)
+  window.addEventListener('popstate', handleRouting);
 });
