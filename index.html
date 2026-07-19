@@ -4,29 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trail Explorer</title>
-    <link rel="stylesheet" href="src/css/style.css">
-    <script type="module" src="src/js/main.js" defer></script>
+    <link rel="stylesheet" href="./src/css/style.css">
+    <link rel="preload" as="image" href="./src/public/images/hero.jpg" type="image/jpeg">
+    <script type="module" src="./src/js/main.js" defer></script>
 </head>
 <body>
 
     <header>
-        <nav>
+        <nav aria-label="Main Navigation">
             <ul>
                 <li class="nav-dropdown-wrapper">
-                    <a href="#" id="favoriteTrailsLink">Favorite Trails</a>
-                    <ul class="dropdown-menu" id="favoritesDropdown">
+                    <!-- Fixed: Swapped dead anchor links for accessible button triggers -->
+                    <button class="nav-dropdown-trigger" id="favoriteTrailsLink" aria-haspopup="true" aria-expanded="false" aria-controls="favoritesDropdown">Favorite Trails</button>
+                    <ul class="dropdown-menu" id="favoritesDropdown" aria-label="Favorite Trails List">
                         <li class="empty-msg">No favorites added yet!</li>
                     </ul>
                 </li>
                 <li class="nav-dropdown-wrapper">
-                    <a href="#" id="completedTrailsLink">Completed Trails</a>
-                    <ul class="dropdown-menu" id="completedDropdown">
+                    <button class="nav-dropdown-trigger" id="completedTrailsLink" aria-haspopup="true" aria-expanded="false" aria-controls="completedDropdown">Completed Trails</button>
+                    <ul class="dropdown-menu" id="completedDropdown" aria-label="Completed Trails List">
                         <li class="empty-msg">No completed hikes yet!</li>
                     </ul>
                 </li>
                 <li class="nav-dropdown-wrapper">
-                    <a href="#" id="plannedTrailsLink">Planned Trails</a>
-                    <ul class="dropdown-menu" id="plannedDropdown">
+                    <button class="nav-dropdown-trigger" id="plannedTrailsLink" aria-haspopup="true" aria-expanded="false" aria-controls="plannedDropdown">Planned Trails</button>
+                    <ul class="dropdown-menu" id="plannedDropdown" aria-label="Planned Trails List">
                         <li class="empty-msg">No hikes planned yet!</li>
                     </ul>
                 </li>
@@ -36,38 +38,32 @@
 
     <main>
         <section class="hero-section">
-            <h1>Trail Explorer</h1>
-            <div class="placeholder-image-wrapper">
-                <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="#A26652" stroke-width="1.5">
-                    <rect x="3" y="3" width="18" height="18" rx="2"/>
-                    <circle cx="8.5" cy="8.5" r="1.5"/>
-                    <path d="M21 15l-5-5L5 21"/>
-                </svg>
+            <img class="hero-bg-image" src="./src/public/images/hero.jpg" alt="Scenic overview of a winding dirt trail overlooking mountain ranges at sunset" fetchpriority="high">
+            <div class="hero-content">
+                <h1>Trail Explorer</h1>
+                <p>Discover your next great outdoor adventure across national parks.</p>
             </div>
-            <p>Discover your next great outdoor adventure across national parks.</p>
         </section>
 
-        <section class="explore-container">
+        <section class="explore-container" aria-live="polite" aria-busy="false" id="exploreContainer">
             <div class="search-wrapper">
-                <form id="searchForm">
+                <form id="searchForm" role="search">
+                    <label for="searchInput" class="sr-only">Search trails by park or keyword</label>
                     <input type="text" id="searchInput" placeholder="Search by park name or keyword..." />
                     <button type="submit">Search</button>
                 </form>
             </div>
 
-            <div class="trail-detail-card">
+            <!-- Fixed: Changed openModalBtn to a utility class to prevent duplicate ID bindings -->
+            <div class="trail-detail-card fade-in-up">
                 <div class="large-trail-image">
-                    <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="#A26652" stroke-width="1.5">
-                        <rect x="3" y="3" width="18" height="18" rx="2"/>
-                        <circle cx="8.5" cy=\"8.5\" r=\"1.5\"/>
-                        <path d="M21 15l-5-5L5 21"/>
-                    </svg>
+                    <div class="img-skeleton">🌲</div>
                 </div>
                 <div class="trail-info-content">
                     <h2>Loading next adventure...</h2> 
                     <p></p>
                     <div class="trail-actions">
-                        <button class="btn-plan" id="openModalBtn">Plan This Hike</button>
+                        <button class="btn-plan open-modal-btn">Plan This Hike</button>
                         <button class="favorite-star-btn" aria-label="Favorite this trail">★</button>
                     </div>
                 </div>
@@ -77,34 +73,48 @@
 
     <footer>
         <div class="footer-links">
-            <a href="#">Facebook</a>
-            <a href="#">Instagram</a>
-            <a href="#">Twitter</a>
+            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Visit our Facebook profile (opens in a new tab)">Facebook</a>
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Visit our Instagram profile (opens in a new tab)">Instagram</a>
+            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="Visit our Twitter profile (opens in a new tab)">Twitter</a>
         </div>
         <div>Trail Explorer 2026 &copy; Powered by National Park Service API.</div>
     </footer>
 
     <!-- Plan Your Hike Modal Component -->
-    <div class="modal-overlay" id="formModal">
+    <div class="modal-overlay" id="formModal" role="dialog" aria-modal="true" aria-labelledby="modalHeader" aria-hidden="true">
         <div class="modal-content">
-            <button class="close-modal" id="closeModalBtn">&times;</button>
-            <h3>Plan Your Hike</h3>
-            <form id="hikePlanForm" method="POST">
+            <button class="close-modal" id="closeModalBtn" aria-label="Close form modal">&times;</button>
+            <h3 id="modalHeader">Plan Your Hike</h3>
+            
+            <!-- Fixed: Transparency notice regarding localized device browser storage allocation -->
+            <p class="privacy-disclaimer">Privacy Notice: Your name and details are saved entirely locally on this specific web browser for tracking purposes.</p>
+            
+            <form id="hikePlanForm" method="POST" novalidate>
                 <div class="form-group">
-                    <input type="text" id="name" placeholder="Name" required>
+                    <label for="name" class="sr-only">Your Full Name</label>
+                    <input type="text" id="name" placeholder="Name" required aria-required="true">
+                    <span class="inline-error" id="nameError" aria-live="polite"></span>
                 </div>
                 <div class="form-group">
-                    <input type="email" id="email" placeholder="Email" required>
+                    <label for="email" class="sr-only">Your Email Address</label>
+                    <input type="email" id="email" placeholder="Email" required aria-required="true">
+                    <span class="inline-error" id="emailError" aria-live="polite"></span>
                 </div>
                 <div class="form-group">
-                    <input type="text" id="hike" placeholder="Hike" required>
+                    <label for="hike" class="sr-only">Trail Target Name</label>
+                    <input type="text" id="hike" placeholder="Hike" required aria-required="true" readonly style="background: #f4f4f4;">
+                    <span class="inline-error" id="hikeError" aria-live="polite"></span>
                 </div>
                 <div class="form-group">
-                    <input type="date" id="date" placeholder="Date" required>
+                    <label for="date" class="sr-only">Target Calendar Date</label>
+                    <input type="date" id="date" required aria-required="true">
+                    <span class="inline-error" id="dateError" aria-live="polite"></span>
                 </div>
-                <button type="submit" class="btn-submit">Send</button>
+                <button type="submit" class="btn-submit">Save Plan</button>
             </form>
         </div>
     </div>
+
+    <div id="toastContainer" aria-live="assertive" aria-atomic="true"></div>
 </body>
 </html>
