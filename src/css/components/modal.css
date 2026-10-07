@@ -1,0 +1,115 @@
+@layer components {
+  .modal-content {
+    background-color: var(--white);
+    border: 4px solid var(--primary-color);
+    border-radius: 12px;
+    width: 90%;
+    max-width: 450px;
+    padding: 30px;
+    position: relative;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    transform: translateY(-50px);
+    transition: transform 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+    margin: auto; 
+  }
+
+  .modal-overlay.active .modal-content {
+    transform: translateY(0);
+  }
+
+  .close-modal {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 1.8rem;
+    background: none;
+    border: none;
+    color: var(--secondary-color);
+    cursor: pointer;
+  }
+
+  .modal-content h3 {
+    font-family: 'Rubik Dirt', display;
+    color: var(--primary-color);
+    font-size: 2rem;
+    margin-top: 0;
+    margin-bottom: 25px;
+    text-align: center;
+  }
+
+  .form-group {
+    position: relative;
+    margin-bottom: 24px;
+  }
+
+  .form-group input {
+    width: 100%;
+    padding: 12px;
+    font-family: 'Contrail One', sans-serif;
+    font-size: 1rem;
+    border: 2px solid #ccc;
+    border-radius: 6px;
+    color: var(--text-color);
+  }
+
+  .form-group input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(103, 130, 45, 0.25);
+  }
+
+  .form-group input[type="date"] {
+    font-family: 'Contrail One', sans-serif;
+    color: var(--text-color);
+    text-transform: uppercase;
+  }
+
+  .form-group input.input-invalid {
+    border-color: var(--secondary-color);
+    background-color: rgba(162, 102, 82, 0.05);
+  }
+
+  .btn-submit {
+    width: 100%;
+    background-color: var(--primary-color);
+    color: var(--white);
+    border: none;
+    padding: 12px;
+    font-family: 'Contrail One', sans-serif;
+    font-size: 1.2rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.3s ease;
+  }
+
+  .btn-submit:hover, 
+  .btn-submit:focus {
+    background-color: var(--accent-color);
+    transform: scale(1.03);
+  }
+
+  .privacy-disclaimer {
+    font-size: 0.8rem;
+    color: #666;
+    margin-bottom: 15px;
+    text-align: center;
+    line-height: 1.4;
+  }
+
+  .inline-error {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--secondary-color);
+    margin-top: 4px;
+    min-height: 1rem;
+    text-align: left;
+    font-weight: bold;
+  }
+
+  @media (--mobile-screen) {
+    .modal-content {
+      width: 95%;
+      padding: 20px 15px;
+    }
+  }
+}

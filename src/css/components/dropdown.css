@@ -1,0 +1,143 @@
+@layer components {
+  .nav-dropdown-wrapper {
+    position: relative;
+  }
+
+  .nav-dropdown-trigger {
+    background: none;
+    border: none;
+    font-family: 'Contrail One', cursive, sans-serif;
+    color: var(--white);
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0;
+    transition: color 0.3s ease;
+  }
+
+  .nav-dropdown-trigger:hover, 
+  .nav-dropdown-trigger:focus {
+    color: var(--bg-color);
+  }
+
+  .dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--white);
+    border: 2px solid var(--primary-color);
+    border-radius: 8px;
+    min-width: 260px;
+    max-height: 300px;
+    overflow-y: auto;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+    padding: 10px 0;
+    margin: 0;
+    list-style: none;
+    display: none;
+    z-index: 100;
+  }
+
+  .nav-dropdown-wrapper:hover .dropdown-menu,
+  .nav-dropdown-wrapper.is-open .dropdown-menu {
+    display: block;
+  }
+
+  .dropdown-menu li {
+    padding: 10px 15px;
+    border-bottom: 1px dashed #eee;
+    font-family: 'Contrail One', sans-serif;
+    font-size: 0.95rem;
+    color: var(--text-color);
+    text-align: left;
+  }
+
+  .dropdown-menu li:last-child {
+    border-bottom: none;
+  }
+
+  .dropdown-menu li .dropdown-trail {
+    color: var(--secondary-color);
+    font-weight: bold;
+    display: block;
+  }
+
+  .dropdown-menu li .dropdown-meta {
+    font-size: 0.8rem;
+    color: #666;
+    display: block;
+    margin-top: 2px;
+  }
+
+  .dropdown-menu li.empty-msg {
+    text-align: center;
+    color: #999;
+    border: none;
+  }
+
+  .dropdown-menu li .dropdown-remove-fav {
+    font-size: 0.75rem;
+    color: var(--secondary-color);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin-top: 4px;
+    text-decoration: underline;
+    display: block;
+    font-family: 'Contrail One', sans-serif;
+    transition: transform 0.2s ease;
+  }
+
+  .dropdown-menu li .dropdown-remove-fav:hover {
+    color: #8c5341;
+    transform: scale(1.05);
+  }
+
+  .dropdown-menu li.planned-item-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .planned-item-text {
+    flex: 1;
+  }
+
+  .complete-checkbox {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--primary-color);
+    border-radius: 4px;
+    cursor: pointer;
+    accent-color: var(--primary-color);
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+
+  .complete-checkbox:hover {
+    transform: scale(1.2);
+  }
+
+  .dropdown-menu li .dropdown-completed-badge {
+    background: #eef2f3;
+    color: var(--primary-color);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    display: inline-block;
+    margin-top: 4px;
+  }
+
+  @media (--mobile-screen) {
+    .dropdown-menu {
+      position: static;
+      transform: none;
+      width: 100%;
+      margin-top: 5px;
+      box-shadow: none;
+      border-left: 4px solid var(--primary-color);
+    }
+  }
+}

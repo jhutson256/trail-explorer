@@ -1,0 +1,42 @@
+@layer layout {
+  header {
+    width: 100%;
+    background-color: var(--primary-color);
+    padding: 15px 20px;
+  }
+
+  nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+  }
+
+  nav a {
+    text-decoration: none;
+    color: var(--white);
+    font-size: 1.2rem;
+    transition: color 0.3s ease;
+  }
+
+  nav a:hover, 
+  nav a:focus {
+    color: var(--bg-color); 
+    outline: 2px dashed var(--white);
+    outline-offset: 4px;
+  }
+
+  @media (--mobile-screen) {
+    header {
+      padding: 10px 5px;
+    }
+
+    nav ul {
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+  }
+}

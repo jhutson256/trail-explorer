@@ -5,12 +5,15 @@
   "type": "module",
   "scripts": {
     "start": "vite",
-    "build": "vite build",
+    "build": "lightningcss --bundle --minify --targets \">= 0.25%\" src/css/main.css -o dist/styles.css && vite build",
+    "watch": "chokidar \"css/**/*.css\" -c \"npm run build\" --debounce 600",
     "preview": "vite preview",
     "lint": "eslint src/js",
     "lint-fix": "eslint src/js --fix"
   },
   "devDependencies": {
+    "chokidar-cli": "^3.0.0",
+    "lightningcss-cli": "^1.33.0",
     "vite": "^8.1.0"
   },
   "keywords": [],

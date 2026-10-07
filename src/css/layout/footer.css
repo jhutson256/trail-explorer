@@ -1,0 +1,29 @@
+@layer layout {
+  footer {
+    width: 100%;
+    background-color: var(--primary-color);
+    color: var(--white);
+    padding: 35px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    margin-top: auto;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 25px;
+  }
+
+  .footer-links a {
+    color: var(--white);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .footer-links a:hover, 
+  .footer-links a:focus {
+    color: var(--bg-color);
+  }
+}
