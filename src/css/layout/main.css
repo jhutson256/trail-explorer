@@ -1,0 +1,25 @@
+@layer layout {
+  main {
+    width: 100%;
+    max-width: 1000px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .explore-container {
+    width: 100%;
+    background-color: var(--white);
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+  }
+
+  @media (--mobile-screen) {
+    .explore-container {
+      padding: 20px 10px;
+    }
+  }
+}

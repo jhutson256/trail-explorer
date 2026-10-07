@@ -1,0 +1,118 @@
+@layer components {
+  .trail-detail-card {
+    width: 100%;
+    display: flex;
+    gap: 40px;
+    align-items: center;
+    margin-top: 20px;
+    padding-bottom: 30px;
+    border-bottom: 2px dashed #ccc;
+    will-change: transform, opacity;
+  }
+
+  .trail-detail-card:last-of-type {
+    border-bottom: none;
+  }
+
+  .large-trail-image {
+    flex: 1;
+    min-height: 350px;
+    background-color: var(--bg-color);
+    border: 3px solid var(--primary-color);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    overflow: hidden;
+  }
+
+  .img-skeleton {
+    font-size: 4rem;
+    animation: pulse 1.5s infinite ease-in-out;
+  }
+
+  .trail-info-content {
+    flex: 1;
+    text-align: center;
+  }
+
+  .trail-info-content h2 {
+    font-family: 'Rubik Dirt', display;
+    font-size: 2.5rem;
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: var(--secondary-color);
+  }
+
+  .trail-info-content p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    text-align: justify;
+  }
+
+  .trail-info-content .btn-plan {
+    background-color: var(--secondary-color);
+    color: var(--white);
+    border: none;
+    padding: 12px 35px;
+    font-family: 'Contrail One', sans-serif;
+    font-size: 1.2rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.3s ease;
+  }
+
+  .trail-info-content .btn-plan:hover, 
+  .trail-info-content .btn-plan:focus {
+    background-color: #8c5341;
+    transform: scale(1.06);
+  }
+
+  .trail-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+  }
+
+  .favorite-star-btn {
+    background: none;
+    border: none;
+    font-size: 2.6rem;
+    color: #ccc;
+    cursor: pointer;
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), color 0.2s ease;
+    padding: 0;
+    line-height: 1;
+  }
+
+  .favorite-star-btn:hover, 
+  .favorite-star-btn:focus {
+    transform: scale(1.18);
+    color: #f39c12;
+  }
+
+  .favorite-star-btn.is-active {
+    color: #f1c40f;
+  }
+
+  @keyframes pulse {
+    0% { transform: scale(0.95); opacity: 0.6; }
+    50% { transform: scale(1.05); opacity: 1; }
+    100% { transform: scale(0.95); opacity: 0.6; }
+  }
+
+  @media (--tablet-screen) {
+    .trail-detail-card {
+      flex-direction: column;
+      gap: 20px;
+    }
+    
+    .large-trail-image {
+      width: 100%;
+      min-height: 250px;
+    }
+  }
+}

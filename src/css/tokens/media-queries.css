@@ -1,0 +1,4 @@
+@layer tokens {
+    @custom-media --mobile-screen (max-width: 600px);
+    @custom-media --tablet-screen (max-width: 768px);
+}

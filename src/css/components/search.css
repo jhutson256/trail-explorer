@@ -1,0 +1,41 @@
+@layer components {
+  .search-wrapper {
+    width: 100%;
+    max-width: 500px;
+  }
+
+  #searchForm {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+  }
+
+  #searchInput {
+    flex: 1;
+    padding: 12px 20px;
+    font-family: 'Contrail One', sans-serif;
+    font-size: 1.1rem;
+    border: 2px solid var(--primary-color);
+    border-radius: 6px;
+    color: var(--text-color);
+  }
+
+  #searchForm button {
+    background-color: var(--secondary-color);
+    color: var(--white);
+    border: none;
+    padding: 0 25px;
+    font-family: 'Contrail One', sans-serif;
+    font-size: 1.1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.3s ease;
+  }
+
+  #searchForm button:hover, 
+  #searchForm button:focus {
+    background-color: #8c5341;
+    transform: scale(1.06);
+    outline: 2px solid var(--secondary-color);
+  }
+}

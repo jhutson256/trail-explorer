@@ -1,0 +1,39 @@
+@layer utilities {
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .fade-in-up {
+    animation: fadeInUp 0.55s cubic-bezier(0.215, 0.610, 0.355, 1.000) both;
+  }
+
+  .inline-error-msg {
+    background-color: rgba(162, 102, 82, 0.1);
+    border: 2px dashed var(--secondary-color);
+    color: var(--secondary-color);
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+    width: 100%;
+    margin: 15px 0;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
